@@ -33,11 +33,9 @@ public class DecisionTreeImpl extends DecisionTree {
    * @param train: the training set
    */
   DecisionTreeImpl(DataSet train) {
-
     this.labels = train.labels;
     this.attributes = train.attributes;
     this.attributeValues = train.attributeValues;
-    // TODO: add code here
     
     root = decisionTreeLearning(train.instances, attributes, majorLabel(train.instances), null);
   }
@@ -49,8 +47,8 @@ public class DecisionTreeImpl extends DecisionTree {
 	  int size, maxGainIndex = 0;
 	  double gain = entropy(instances) - averageEntropy(instances,attributes.get(i));
 	  double Gain[] = new double[attrLength];
+	  
 	  Gain[i] = gain;
-	
 	  if (instances.isEmpty()) {
 		  return node = new DecTreeNode(defLabel, null, parentAttributeValue, true);
 	  }
@@ -59,17 +57,14 @@ public class DecisionTreeImpl extends DecisionTree {
 	  }
 	  if (attributes.isEmpty()) {
 		  return node = new DecTreeNode(majorLabel(instances), null, parentAttributeValue, true);
-	  }
-	  	  
-	 
+	  } 
 	  for (i = 1; i < attrLength; i++) {
 		  gain = entropy(instances) - averageEntropy(instances,attributes.get(i));
 		  Gain[i] = gain;
 	  }
 	 
 	  double maxGain = 0;
-	  i = 0;
-	  
+	  i = 0;  
 	  while(i++ < attrLength) {
 		  if (maxGain < Gain[i]) {
 			  maxGain = Gain[i];
@@ -83,7 +78,6 @@ public class DecisionTreeImpl extends DecisionTree {
 	  thisAttribute.remove(maxGainIndex);
 	  size = attributeValues.get(maxAttribute).size();
 	  int j = 0;
-	  
 	  while(j++ < size) {
 		  List<Instance> tempInstance = new ArrayList<Instance>();
 		  for (i = 0; i < instances.size(); i++) {
@@ -129,7 +123,6 @@ public class DecisionTreeImpl extends DecisionTree {
   
   /*private method to compute the conditional entropy for the given attribute */
   private double averageEntropy(List<Instance> instances, String attribute) {
-
 	  String firstLabel = instances.get(0).label;
 	  String secondLabel = null;
 	  int i = 1;
@@ -144,12 +137,12 @@ public class DecisionTreeImpl extends DecisionTree {
 	  int difAttrVals = attributeValues.get(attribute).size();
 	  int attrIndex = getAttributeIndex(attribute);
 	  int total[] = new int[difAttrVals],
-		  firstLength[] = new int[difAttrVals],
-		  secondLength[] = new int[difAttrVals]; 
+	  firstLength[] = new int[difAttrVals],
+	  secondLength[] = new int[difAttrVals]; 
 	  double _condEntropy[] = new double[difAttrVals];
 	  double condEntropy = 0, firstLabelSum = 0, secondLabelSum = 0;
-	  
 	  i = 0;
+	  
 	  while(i++ < difAttrVals) {
 		  total[i] = 0;
 		  firstLength[i] = 0;
@@ -188,8 +181,7 @@ public class DecisionTreeImpl extends DecisionTree {
 		  }
 		  
 		  _condEntropy[i] = (double)total[i]/size * (firstLabelSum + secondLabelSum);
-		  condEntropy = condEntropy + _condEntropy[i];
-		  
+		  condEntropy = condEntropy + _condEntropy[i];  
 	  }
       return condEntropy;
   }
@@ -199,7 +191,6 @@ public class DecisionTreeImpl extends DecisionTree {
 	  int i=1;
 	  int numOfInstances = instances.size();
 	  int firstLabelCount, secondLabelCount;
-	  
 	  String label = instances.get(0).label;
 	  firstLabelCount = 1;
 	  secondLabelCount = 0;
@@ -213,6 +204,7 @@ public class DecisionTreeImpl extends DecisionTree {
 	  
 	  /*the probability of appearances of the first label in all instances */
 	  double firstProbability = firstLabelCount/numOfInstances;
+	 
 	  /*the probability of appearances of the second label in all instances */
 	  double secondProbability = secondLabelCount/numOfInstances;
 	  
@@ -233,29 +225,11 @@ public class DecisionTreeImpl extends DecisionTree {
 		System.out.format("%.5f\n", (double)matchedLabels/test.instances.size());
   }
   
-  
-    /**
-   * Build a decision tree given a training set then prune it using a tuning set.
-   * ONLY for extra credits
-   * @param train: the training set
-   * @param tune: the tuning set
-   */
-  DecisionTreeImpl(DataSet train, DataSet tune) {
-
-    this.labels = train.labels;
-    this.attributes = train.attributes;
-    this.attributeValues = train.attributeValues;
-    // TODO: add code here
-    // only for extra credits
-  }
-  
-  
   @Override
   /**
    * Print the decision tree in the specified format
    */
   public void print() {
-
     printTreeNode(root, null, 0);
   }
 
@@ -334,8 +308,7 @@ public class DecisionTreeImpl extends DecisionTree {
 			  break;
 		  } 
 		  i++;
-	  }
-	 
+	  } 
 	  if (flag)
 		  return true;
 	  else
@@ -343,12 +316,10 @@ public class DecisionTreeImpl extends DecisionTree {
   }
   
   /*private method that checks the label for each instance in instances list to choose the most appeared label */
-  private String majorLabel(List<Instance> instances) {
-		
+  private String majorLabel(List<Instance> instances) {	
 	  int i = 0, firstLabelCount = 0, secondLabelCount = 0;
 	  String firstLabel = labels.get(0);
-	  String secondLabel = labels.get(1);
-	  
+	  String secondLabel = labels.get(1); 
 	  while(i<instances.size()) {
 		  if (instances.get(i).label.equals(firstLabel))
 			  firstLabelCount++;
